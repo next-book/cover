@@ -1,0 +1,36 @@
+{
+  "name": "book-cover",
+  "version": "1.0.0",
+  "description": "generates covers, icons and metadata based on book.json config, then updates book html files",
+  "main": "src/index.ts",
+  "bin": "build/bin.js",
+  "scripts": {
+    "build": "tsc && chmod u+x build/bin.js",
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
+    "ts-jest": "^28.0.2",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@actions/core": "^1.8.2",
+    "@next-book/publisher": "^0.3.11",
+    "@types/color": "^3.0.3",
+    "@types/sharp": "^0.30.4",
+    "@vibrant/color": "^3.2.1-alpha.1",
+    "color": "^4.2.3",
+    "favicons": "^7.0.0-beta.4",
+    "playwright-chromium": "^1.21.1",
+    "sharp": "^0.30.6"
+  }
+}
