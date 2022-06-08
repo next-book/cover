@@ -48,7 +48,7 @@ interface IconOptions {
 
 type Icons = Dictionary<IconOptions | boolean | string[]>
 
-interface ImageGenerationOptions {
+interface CoverGenerationOptions {
   disableImageGeneration: boolean
   disableCoverGeneration: boolean
   covers: Cover[] // set cover sizes
@@ -70,14 +70,14 @@ interface ImageGenerationOptions {
 
 interface Config {
   meta: Meta
-  imageGeneratorOptions: ImageGenerationOptions
+  coverGenerationOptions: CoverGenerationOptions 
 }
 
 const defaultMeta = {
   title: 'No Title',
   author: 'No Author',
 }
-const defaultOptions: ImageGenerationOptions = {
+const defaultOptions: CoverGenerationOptions = {
   disableImageGeneration: false,
   disableCoverGeneration: false,
   covers: [Cover.AMAZON, Cover.FACEBOOK, Cover.TWITTER, Cover.MKP],
@@ -249,7 +249,7 @@ interface CoverResult {
  */
 const generateCover = async (
   url: string,
-  options: ImageGenerationOptions,
+  options: CoverGenerationOptions,
   pathDir: string,
   page: Page,
   debug = false
@@ -449,7 +449,7 @@ const writeIconFiles = async (
     if (DEBUG) console.log(file.name, 'written')
   }
 }
-const getMetaHtml = (options: ImageGenerationOptions, meta: Meta) => {
+const getMetaHtml = (options: CoverGenerationOptions, meta: Meta) => {
   const html: string[] = []
   if (!options.disableOgMetaGeneration) {
     html.push(`<meta property="og:title" content="${meta.title}" />`)
@@ -500,12 +500,12 @@ const main = async (srcDir: string) => {
   const config: Partial<Config> = JSON.parse(
     await fs.readFile(configPath, 'utf8')
   )
-  const options = { ...defaultOptions, ...config.imageGeneratorOptions }
+  const options = { ...defaultOptions, ...config.coverGenerationOptions }
+  if (options.disableImageGeneration) return
   const meta = { ...defaultMeta, ...config.meta }
   if (!options.name) options.name = meta.author + ': ' + meta.title
   if (!options.shortName) options.shortName = meta.title
   const assetPath = path.join(srcDir, options.assetDir)
-  if (options.disableImageGeneration) return
   const server = http.createServer(async function (req, res) {
     if (!req.url) return
     try {
