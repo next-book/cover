@@ -2,6 +2,13 @@
 
 no config besides standard book.json needed
 
+might be run using ts-node
+```
+src/ts-node-bin.ts ../boilerplate/_temp
+```
+
+or eventually as specified in package.json bin property 
+
 book config description and defaults:
 
 ```js
