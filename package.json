@@ -1,6 +1,6 @@
 {
   "name": "@next-book/cover",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "generates covers, icons and metadata based on book.json config, then updates book html files",
   "main": "src/index.ts",
   "bin": {
