@@ -280,7 +280,7 @@ async function generateCover(
       height: height,
     })
     const filename = `cover-${width}x${height}.png`
-    const url = '/' + options.assetDir + '/' + filename
+    const url = './' + options.assetDir + '/' + filename
     const filepath = pathDir + '/' + filename
     await page.screenshot({
       path: filepath,
@@ -569,6 +569,7 @@ async function main(srcDir: string) {
     if (DEBUG) console.log('loaded source icon:', sourceIconPath)
     const faviconsResponse = await favicons(sourceIconPath, {
       path: options.assetDir,
+      manifestRelativePaths: true,
       background: iconColors.background,
       theme_color: options.themeColor,
       icons: options.icons,
@@ -579,7 +580,8 @@ async function main(srcDir: string) {
     await writeFavicons(faviconsResponse.images, assetPath)
     if (DEBUG) console.log('excluded files:', denylist.join(','))
     await writeIconFiles(faviconsResponse.files, assetPath, denylist)
-    faviconsHtml = faviconsResponse.html
+    // there is currently now way to set relative path to the urls in the favicons library
+    faviconsHtml = (faviconsResponse.html as string[]).map(link => link.replace('href="/', 'href="./'))
   }
   // html
   const html = getMetaHtml(options, meta).concat(covers.html)
