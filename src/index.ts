@@ -9,6 +9,8 @@ import Color from 'color'
 
 const DEBUG = false 
 /**
+ * Toggle browser headlessness 
+ * 
  * User os theme might change the result screenshots when running browser
  * in head-full mode eg. by applying user’s OS prefers-color-scheme.
  */
