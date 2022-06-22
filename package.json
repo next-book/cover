@@ -1,9 +1,11 @@
 {
-  "name": "book-cover",
-  "version": "1.0.0",
+  "name": "@next-book/cover",
+  "version": "1.0.1",
   "description": "generates covers, icons and metadata based on book.json config, then updates book html files",
   "main": "src/index.ts",
-  "bin": "build/bin.js",
+  "bin": {
+    "cover": "build/bin.js"
+  },
   "scripts": {
     "build": "tsc && chmod u+x build/bin.js",
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js"

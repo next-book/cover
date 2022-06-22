@@ -148,9 +148,13 @@ async function generateIcon (
   iconColors: IconColors
 ): Promise<string> {
   const result: WamImageObject[] = []
-  const gridIcon = await fs.readFile('assets/icon-grid.svg', {
-    encoding: 'utf8',
-  })
+
+  const gridIcon = await fs.readFile(
+    path.join(__dirname, '../assets/icon-grid.svg'),
+    {
+      encoding: 'utf8',
+    }
+  )
   const coverHtml = await fs.readFile(path.join(bookPath, 'index.html'), {
     encoding: 'utf8',
   })
