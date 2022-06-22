@@ -140,13 +140,13 @@ type IconColors = {
   title?: string
 }
 
-const generateIcon = async (
+async function generateIcon (
   bookPath: string,
   author: string,
   assetDir: string,
   page: Page,
   iconColors: IconColors
-): Promise<string> => {
+): Promise<string> {
   const result: WamImageObject[] = []
   const gridIcon = await fs.readFile('assets/icon-grid.svg', {
     encoding: 'utf8',
@@ -247,13 +247,13 @@ interface CoverResult {
 /**
  * Takes multiple screenshots of cover (index) page of the book
  */
-const generateCover = async (
+async function generateCover(
   url: string,
   options: CoverGenerationOptions,
   pathDir: string,
   page: Page,
   debug = false
-): Promise<CoverResult> => {
+): Promise<CoverResult> {
   const result: CoverResult = {
     // wam: [],
     publication: [],
@@ -312,7 +312,6 @@ interface htmlProps {
   originalHead: string
 }
 
-// https://stackoverflow.com/questions/1191464/is-there-a-way-to-use-use-text-as-the-background-with-css
 export const getIconHtml = (props: htmlProps) => `
   <html>
   <head>
@@ -386,11 +385,11 @@ export const getIconHtml = (props: htmlProps) => `
 </html>
 `
 
-const getIconColors = async (
+async function getIconColors(
   covers: CoverResult,
   disableIconColorDetection: boolean,
   themeColor?: string
-): Promise<IconColors> => {
+): Promise<IconColors> {
   const colors: IconColors = {}
   if (!themeColor && !disableIconColorDetection && covers.files.length > 0) {
     // to detect color from image, we are using sharp as its a shared dependency with favicons generation
@@ -419,10 +418,10 @@ const getIconColors = async (
   return colors
 }
 
-const writeFavicons = async (
+async function writeFavicons(
   images: FaviconResponse['images'],
   assetDir: string
-) => {
+) {
   // images are Array of
   // { name: string, contents: <buffer> | { info: sharp info obj, data: <buffer> } }
   let img
@@ -436,11 +435,11 @@ const writeFavicons = async (
   if (DEBUG) console.log('icons written')
 }
 
-const writeIconFiles = async (
+async function writeIconFiles(
   files: FaviconResponse['files'],
   assetsPath: string,
   denylist: string[]
-) => {
+) {
   const filtered = files.filter((f) => !denylist.includes(f.name))
   let file
   for (let i = 0; i < filtered.length; i++) {
@@ -449,7 +448,8 @@ const writeIconFiles = async (
     if (DEBUG) console.log(file.name, 'written')
   }
 }
-const getMetaHtml = (options: CoverGenerationOptions, meta: Meta) => {
+
+function getMetaHtml(options: CoverGenerationOptions, meta: Meta) {
   const html: string[] = []
   if (!options.disableOgMetaGeneration) {
     html.push(`<meta property="og:title" content="${meta.title}" />`)
@@ -469,12 +469,13 @@ const getMetaHtml = (options: CoverGenerationOptions, meta: Meta) => {
   }
   return html
 }
-const insertToHeads = async (
+
+async function insertToHeads(
   srcDir: string,
   faviconsHtml: FaviconResponse['html'],
   otherHtml: string[],
   denylist: string[]
-) => {
+) {
   const html = faviconsHtml
     .filter((element) => !denylist.some((file) => element.includes(file)))
     .concat(otherHtml)
@@ -495,7 +496,7 @@ const insertToHeads = async (
   }
 }
 
-const main = async (srcDir: string) => {
+async function main(srcDir: string) {
   const configPath = path.join(srcDir, 'book.json')
   const config: Partial<Config> = JSON.parse(
     await fs.readFile(configPath, 'utf8')
